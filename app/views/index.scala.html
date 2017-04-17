@@ -1,8 +1,14 @@
 @()
 
+@import binarytreepkg._
+
+@import helper._  /* for @form */
+
 @main("Welcome to Play") {
-<body>
-      <!-- GitHub-corners logo link in top right corner UPDATE WITH LOGO -->
+
+
+   @helper.form(routes.Binarytree.insert,'class -> "form-horizontal") {
+
       <div class="container thebody">
          <h1 class="center title">Welcome to the Scala Binary Tree</h1>
          <p class="input center">
@@ -10,7 +16,66 @@
          </p>
 
          <p style="text-align:center;">
-            <button type="button" onclick="binaryTree.insert()" class="btn btn-success width">Insert</button>
+            <button type="submit" name="action" value="insert" class="btn btn-success width">Insert</button>
+            <button type="submit" name="action" value="search" class="btn btn-primary width">Search</button>
+            <button type="submit" name="action" value="remove" class="btn btn-danger width">Remove</button>
+         </p>
+
+         <p id="status" style="text-align:center;">&nbsp;</p>
+         <p id="preorderOutput" style="text-align:center;">Preorder: @{binaryTree.preOrderTraversal(binaryTree.root)}</p>
+         <p id="inorderOutput" style="text-align:center;">Inorder: @{binaryTree.inOrderTraversal(binaryTree.root)}</p>
+         <p id="postorderOutput" style="text-align:center;">Postorder @{binaryTree.postOrderTraversal(binaryTree.root)}</p>
+      </div>
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<body>
+      <!-- GitHub-corners logo link in top right corner UPDATE WITH LOGO -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <!-- <div class="container thebody">
+         <h1 class="center title">Welcome to the Scala Binary Tree</h1>
+         <p class="input center">
+            <input id="userNum" type="number" placeholder="72">
+         </p>
+
+         <p style="text-align:center;">
+            <button type="submit" name="action" value="insert" class="btn btn-success width">Insert</button>
             <button type="button" onclick="binaryTree.search(binaryTree.root,null)" class="btn btn-primary width">Search</button>
             <button type="button" onclick="binaryTree.remove(binaryTree.root,null)" class="btn btn-danger width">Remove</button>
          </p>
@@ -19,6 +84,6 @@
          <p id="preorderOutput" style="text-align:center;">Preorder:</p>
          <p id="inorderOutput" style="text-align:center;">Inorder:</p>
          <p id="postorderOutput" style="text-align:center;">Postorder</p>
-      </div>
+      </div> -->
 </body>
 }

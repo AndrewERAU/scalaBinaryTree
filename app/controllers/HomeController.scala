@@ -21,4 +21,14 @@ class HomeController @Inject() extends Controller {
   def index = Action { implicit request =>
     Ok(views.html.index())
   }
+
+  // debug remove
+  // def handle = Action { implicit request =>
+  // request.body.asFormUrlEncoded.get("action").headOption match {
+  //   case Some("insert") => Ok("Clicked edit")
+  //   case Some("remove") => Ok("Clicked remove")
+  //   case _ => BadRequest("This action is not allowed")
+  // }
+  // }
+
 }
