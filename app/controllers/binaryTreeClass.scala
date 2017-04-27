@@ -4,7 +4,6 @@ class Node(inData:Int) {
    var data : Int = inData;
    var rightChild : Node = _;
    var leftChild : Node = _;
-
 }
 
 class binaryTreeClass {
@@ -37,21 +36,87 @@ class binaryTreeClass {
       result = data.toString + " inserted!"
    }
 
-   def search(data:Int,node:Node) {
+   def search(data:Int,node:Node,parentNode:Node = null): (Node,Node) = {
       if (node == null) {
          result = data.toString + " not found."
-         return
-      }
-      else {
+         return (null, null)
+      } else {
          if (node.data == data) {
             result = data.toString + " found!"
-            return
+            return (node,parentNode)
          } else if (data < node.data) {
-            search(data,node.leftChild)
+            search(data,node.leftChild,node)
          } else {
-            search(data,node.rightChild)
-         }      
+            search(data,node.rightChild,node)
+         }
       }
+   }
+
+   def remove(data:Int, node:Node, parentOfStartNode:Node = null) {
+      val (nodeToRemove, parentOfNodeToRemove) = search(data, node, parentOfStartNode)
+      if (nodeToRemove == null) {
+         result =  data + " not removed (not found in tree)"
+         return
+      } else if (nodeToRemove.leftChild == null && nodeToRemove.rightChild == null) {
+         // both children equal null. easy. simply remove node
+         if (nodeToRemove == root) {
+            root = null // tree was just 1 node, now its 0 nodes
+         } else if (parentOfNodeToRemove.leftChild != null &&
+            parentOfNodeToRemove.leftChild.data == nodeToRemove.data) {
+            // finds child of parent that should be deleted
+            parentOfNodeToRemove.leftChild = null
+         } else {
+            parentOfNodeToRemove.rightChild = null
+         }
+      } else if (nodeToRemove.leftChild == null || nodeToRemove.rightChild == null) {
+         // one child equals null. have parent point to child
+         if (nodeToRemove.leftChild == null) {
+            if (nodeToRemove == root) {
+               root = root.rightChild
+            } else if (parentOfNodeToRemove.leftChild != null &&
+               parentOfNodeToRemove.leftChild.data == nodeToRemove.data) {
+               // finds child of parent that should be deleted
+               parentOfNodeToRemove.leftChild = nodeToRemove.rightChild
+            } else {
+               parentOfNodeToRemove.rightChild = nodeToRemove.rightChild
+            }
+         } else {// right child == nil
+            if (nodeToRemove == root) {
+               root = root.leftChild
+            } else if (parentOfNodeToRemove.leftChild != null &&
+               parentOfNodeToRemove.leftChild.data == nodeToRemove.data) {
+               // finds child of parent that should be deleted
+               parentOfNodeToRemove.leftChild = nodeToRemove.leftChild
+            } else {
+               parentOfNodeToRemove.rightChild = nodeToRemove.leftChild
+            }
+         }
+      } else {
+         // node-to-remove has 2 children
+         // no special logic required for removing root in this case
+         // find smallest value in right subtree
+         // functional. tailrecursion
+         def findNodeWithSmallestValueInSubtree(node:Node,minNode:Node=node): Node = {
+            if (node == null) minNode // done traversing. return minimum node
+            else findNodeWithSmallestValueInSubtree(node.leftChild,node)
+         }
+         val minimumNode = findNodeWithSmallestValueInSubtree(nodeToRemove.rightChild)
+         /*
+         var trvPtr = nodeToRemove.rightChild
+         var minimumNode: Node = trvPtr
+         while (trvPtr != null) {
+            minimumNode = trvPtr
+            trvPtr = trvPtr.leftChild
+         }*/
+
+         // replace value of node-to-remove with value of minimum
+         nodeToRemove.data = minimumNode.data
+
+         // remove minimum node from right subtree since it has been moved
+         remove(nodeToRemove.data, nodeToRemove.rightChild,nodeToRemove)
+      }
+
+      result = "Removed " + data.toString + "!"
    }
 
    def visit(nodeToVisit : Node) = { /* Pure function */
