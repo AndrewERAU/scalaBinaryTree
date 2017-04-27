@@ -37,6 +37,23 @@ class binaryTreeClass {
       result = data.toString + " inserted!"
    }
 
+   def search(data:Int,node:Node) {
+      if (node == null) {
+         result = data.toString + " not found."
+         return
+      }
+      else {
+         if (node.data == data) {
+            result = data.toString + " found!"
+            return
+         } else if (data < node.data) {
+            search(data,node.leftChild)
+         } else {
+            search(data,node.rightChild)
+         }      
+      }
+   }
+
    def visit(nodeToVisit : Node) = { /* Pure function */
       if (this.traversalResult != "")
          this.traversalResult + ", " + nodeToVisit.data

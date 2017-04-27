@@ -20,7 +20,15 @@ class Binarytree @Inject() extends Controller {
           Redirect("/") // just stay on home page. don't reload page
           //Ok("Clicked insert " + binaryTree.insert(userNum.get.toInt))
        }
+       case Some("search") => {
+          // extract item from DOM to use for whatever operation was pressed
+          //http://stackoverflow.com/questions/11212248/how-do-i-access-post-data-from-scala-play
+          val userNum = request.body.asFormUrlEncoded.get("userNum").lift(0)
+          userNum map {_.toInt} getOrElse 0
+          binaryTree.search(userNum.get.toInt,binaryTree.root)
 
+          Redirect("/") // just stay on home page. don't reload page
+       }
        case Some("remove") => Ok("Clicked remove")
        case _ => BadRequest("This action is not allowed")
      }
