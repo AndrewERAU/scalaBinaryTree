@@ -17,37 +17,31 @@ class binaryTreeClass {
 
    var result : String = "";
 
-   def insert(data:Int) = {
+   def insert(data:Int, node:Node): Unit = { // unit is used for recursive function with 'no' return type
+
       // Insertion of first node
-      val newNode = new Node(data)
-
-      var trvPtr = root
-
-      if (root == null)
-         root = newNode
-      else { // Insertion of additional nodes
-         while (trvPtr != null) {
-            val trvPtrParent = trvPtr
-            if (newNode.data < trvPtr.data) {
-               trvPtr = trvPtr.leftChild
-               if (trvPtr == null) {
-                  trvPtrParent.leftChild = newNode
-               }
-            } else {
-               trvPtr = trvPtr.rightChild
-               if (trvPtr == null) {
-                  trvPtrParent.rightChild = newNode
-               }
-            }
-         } // end while
-      } // end if/else
+      if (root == null) {
+         result = "root null"
+         root = new Node(data)
+      } else if (data < node.data) {
+         if (node.leftChild == null)
+            node.leftChild = new Node(data)
+         else
+            insert(data,node.leftChild)
+      } else { // (data > node.data) { // data == parent.data. arbitraily choose right
+         if (node.rightChild == null)
+            node.rightChild = new Node(data)
+         else
+            insert(data,node.rightChild)
+      }
       result = data.toString + " inserted!"
    }
 
-
-
    def visit(nodeToVisit : Node) = { /* Pure function */
-      this.traversalResult + nodeToVisit.data
+      if (this.traversalResult != "")
+         this.traversalResult + ", " + nodeToVisit.data
+      else
+         nodeToVisit.data.toString
    }
 
    def preOrderTraversal(startNode : Node): String = {
@@ -56,7 +50,7 @@ class binaryTreeClass {
          this.traversalResult = ""
 
       if (startNode != null) {
-         traversalResult = visit(startNode)
+         this.traversalResult = visit(startNode)
          preOrderTraversal(startNode.leftChild)
          preOrderTraversal(startNode.rightChild)
       }

@@ -21,7 +21,7 @@
             <button type="submit" name="action" value="remove" class="btn btn-danger width">Remove</button>
          </p>
 
-         <p id="status" style="text-align:center;">&nbsp;</p>
+         <p id="status" style="text-align:center;">@{binaryTree.result}</p>
          <p id="preorderOutput" style="text-align:center;">Preorder: @{binaryTree.preOrderTraversal(binaryTree.root)}</p>
          <p id="inorderOutput" style="text-align:center;">Inorder: @{binaryTree.inOrderTraversal(binaryTree.root)}</p>
          <p id="postorderOutput" style="text-align:center;">Postorder @{binaryTree.postOrderTraversal(binaryTree.root)}</p>
